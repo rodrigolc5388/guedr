@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Guedr</string>
     <string name="greeting">Hola keepcoders!</string>
+    <string name="offline_description">Imagen que representa el tiempo cuando no hay internet</string>
+    <string name="stone_button">Sistema piedra</string>
+    <string name="donkey_button">Sistema burro</string>
 </resources>
