@@ -8,20 +8,14 @@ import android.widget.Button
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    var stoneButton: Button? = null
-    var donkeyButton: Button? = null
-
     val TAG = MainActivity::class.java.canonicalName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        stoneButton = findViewById<Button>(R.id.stone_button)
-        donkeyButton = findViewById<Button>(R.id.donkey_button)
-
-        stoneButton?.setOnClickListener(this)
-        donkeyButton?.setOnClickListener(this)
+        findViewById<Button>(R.id.stone_button).setOnClickListener(this)
+        findViewById<Button>(R.id.donkey_button).setOnClickListener(this)
 
         Log.v(TAG, "He pasado por onCreate")
 
