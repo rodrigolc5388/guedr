@@ -10,5 +10,5 @@
     <string name="humidity_format">Humedad: %.0f %%</string>
     <string name="choose_units">Elige las unidades de temperatura:</string>
     <string name="celsius_unit">Unidades celsius</string>
-    <string name="farenheit_units">Unidades Farenheit</string>
+    <string name="farenheit_units">Unidades Fahrenheit</string>
 </resources>
