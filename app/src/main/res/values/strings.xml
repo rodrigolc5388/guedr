@@ -4,4 +4,5 @@
     <string name="offline_description">Imagen que representa el tiempo cuando no hay internet</string>
     <string name="stone_button">Sistema piedra</string>
     <string name="donkey_button">Sistema burro</string>
+    <string name="forecast_image_description">Imagen del tiempo que hace</string>
 </resources>
