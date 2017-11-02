@@ -31,7 +31,7 @@ class ForecastActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_forecast)
 
         forecast = Forecast(25f, 10f, 35f, "Soleado con alguna nube", R.drawable.ico_01)
     }
