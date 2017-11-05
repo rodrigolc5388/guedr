@@ -4,12 +4,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import org.w3c.dom.Text
 
 class ForecastActivity : AppCompatActivity() {
@@ -87,12 +90,16 @@ class ForecastActivity : AppCompatActivity() {
                 when (unitSelected){
                     R.id.celsius_rb -> {
                         Log.v("TAG", "Soy ForecastActivity y han pulsado OK y Celsius")
+                        // Toast.makeText(this, "Celsius seleccionado", Toast.LENGTH_LONG).show()
 
                     }
                     R.id.farenheit_rb -> {
                         Log.v("TAG", "Soy ForecastActivity y han pulsado OK y Fahrenheit")
+                        // Toast.makeText(this, "Fahrenheit seleccionado", Toast.LENGTH_LONG).show()
                     }
                 }
+
+                val oldShowCelsius = temperatureUnits()
 
                 PreferenceManager.getDefaultSharedPreferences(this)
                         .edit()
@@ -100,6 +107,17 @@ class ForecastActivity : AppCompatActivity() {
                         .apply()
 
                 updateTemperature()
+
+                Snackbar.make(findViewById<View>(android.R.id.content), "Han cambiado las preferencias", Snackbar.LENGTH_LONG)
+                        .setAction("Deshacer"){
+                            PreferenceManager.getDefaultSharedPreferences(this)
+                                    .edit()
+                                    .putBoolean(PREFERENCE_SHOW_CELSIUS, oldShowCelsius == Forecast.TempUnit.CELSIUS)
+                                    .apply()
+                            updateTemperature()
+
+                        }
+                        .show()
 
             } else {
                 Log.v ("TAG", "Soy ForecastActivity y han pulsado CANCEL")
