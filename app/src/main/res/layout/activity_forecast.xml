@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.rodrigo.guedr.ForecastActivity">
+    tools:context="com.example.rodrigo.guedr.activity.ForecastActivity">
 
     <fragment
         android:id="@+id/forecast_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.rodrigo.guedr.ForecastFragment" />
+        android:name="com.example.rodrigo.guedr.fragment.ForecastFragment" />
 
 </FrameLayout>
