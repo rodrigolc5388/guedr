@@ -150,6 +150,15 @@ class ForecastFragment: Fragment() {
         }
     }
 
+    // Para saber si, estando en un ViewPager por ejemplo, debemos refrescar las unidades de las temperaturas
+    // Es algo así como el viewWillAppear de los Fragment
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser && forecast != null) {
+            updateTemperature()
+        }
+    }
+
     private fun updateTemperature() {
         val units = temperatureUnits()
         val unitsString = temperatureUnitsString(units)

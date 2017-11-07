@@ -38,6 +38,22 @@ class CityPagerActivity : AppCompatActivity() {
         }
 
         pager.adapter = adapter
+
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                updateCityInfo(position)
+            }
+        })
+
+        updateCityInfo(0)
+    }
+
+    fun updateCityInfo(position: Int) {
+        supportActionBar?.title = cities[position].name
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
