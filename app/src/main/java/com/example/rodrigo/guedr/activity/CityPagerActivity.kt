@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_city_pager.*
 class CityPagerActivity : AppCompatActivity() {
 
     val pager by lazy { findViewById<ViewPager>(R.id.view_pager) }
+    val cities = Cities()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class CityPagerActivity : AppCompatActivity() {
         toolbar.setLogo(R.mipmap.ic_launcher)
         setSupportActionBar(toolbar)
 
-        val cities = Cities()
+
         val adapter = object : FragmentPagerAdapter(fragmentManager) {
             override fun getItem(position: Int) = ForecastFragment.newInstance(cities[position])
 
@@ -57,5 +58,18 @@ class CityPagerActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        invalidateOptionsMenu()
+
+        val menuPrev = menu?.findItem(R.id.previous)
+        menuPrev?.setEnabled(pager.currentItem > 0)
+
+        val menuNext = menu?.findItem(R.id.next)
+        menuNext?.setEnabled(pager.currentItem < cities.count -1)
+
+        return true
     }
 }
