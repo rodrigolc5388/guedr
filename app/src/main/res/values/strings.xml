@@ -12,4 +12,6 @@
     <string name="celsius_unit">Unidades celsius</string>
     <string name="farenheit_units">Unidades Fahrenheit</string>
     <string name="settings">Ajustes</string>
+    <string name="previous">Anterior</string>
+    <string name="next">Siguiente</string>
 </resources>

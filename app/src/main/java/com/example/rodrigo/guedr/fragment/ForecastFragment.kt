@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.example.rodrigo.guedr.PREFERENCE_SHOW_CELSIUS
 import com.example.rodrigo.guedr.R
 import com.example.rodrigo.guedr.activity.SettingsActivity
+import com.example.rodrigo.guedr.model.City
 import com.example.rodrigo.guedr.model.Forecast
 
 
@@ -20,11 +21,30 @@ class ForecastFragment: Fragment() {
 
     companion object {
         val REQUEST_UNITS = 1
+        private val ARG_CITY = "ARG_CITY"
+
+        fun newInstance(city: City): ForecastFragment{
+            val fragment = ForecastFragment()
+
+            val arguments = Bundle()
+            arguments.putSerializable(ARG_CITY, city)
+            fragment.arguments = arguments
+
+            return fragment
+        }
     }
 
     lateinit var root: View
     lateinit var maxTemp: TextView
     lateinit var minTemp: TextView
+
+    var city: City? = null
+        set(value) {
+            if( value != null){
+                root.findViewById<TextView>(R.id.city).setText(value.name)
+                forecast = value.forecast
+            }
+        }
 
     var forecast: Forecast? = null
     set(value) {
@@ -56,7 +76,9 @@ class ForecastFragment: Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         if (inflater != null) {
             root = inflater.inflate(R.layout.fragment_forecast, container, false)
-            forecast = Forecast(25f, 10f, 35f, "Soleado con alguna nube", R.drawable.ico_01)
+            if (arguments != null) {
+                city = arguments.getSerializable(ARG_CITY) as? City
+            }
         }
 
         return root
