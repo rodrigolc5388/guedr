@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.rodrigo.guedr.activity.ForecastActivity">
 
-    <fragment
-        android:id="@+id/forecast_fragment"
+    <FrameLayout
+        android:id="@+id/city_list_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.example.rodrigo.guedr.fragment.ForecastFragment" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
