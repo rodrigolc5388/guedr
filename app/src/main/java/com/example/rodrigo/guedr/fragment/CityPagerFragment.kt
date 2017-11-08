@@ -27,7 +27,6 @@ class CityPagerFragment : Fragment() {
 
     lateinit var root: View
     val pager by lazy { root.findViewById<ViewPager>(R.id.view_pager) }
-    val cities = Cities()
 
     var initialCityIndex = 0
 
@@ -46,11 +45,11 @@ class CityPagerFragment : Fragment() {
             initialCityIndex = arguments?.getInt(ARG_CITY_INDEX) ?: 0
 
             val adapter = object: FragmentPagerAdapter(fragmentManager) {
-                override fun getItem(position: Int) = ForecastFragment.newInstance(cities[position])
+                override fun getItem(position: Int) = ForecastFragment.newInstance(Cities[position])
 
-                override fun getCount() = cities.count
+                override fun getCount() = Cities.count
 
-                override fun getPageTitle(position: Int) = cities[position].name
+                override fun getPageTitle(position: Int) = Cities[position].name
             }
 
             pager.adapter = adapter
@@ -97,13 +96,13 @@ class CityPagerFragment : Fragment() {
         menuPrev?.setEnabled(pager.currentItem > 0)
 
         val menuNext = menu?.findItem(R.id.next)
-        menuNext?.setEnabled(pager.currentItem < cities.count - 1)
+        menuNext?.setEnabled(pager.currentItem < Cities.count - 1)
     }
 
     fun updateCityInfo(position: Int) {
         if (activity is AppCompatActivity) {
             val supportActionBar = (activity as? AppCompatActivity)?.supportActionBar
-            supportActionBar?.title = cities[position].name
+            supportActionBar?.title = Cities[position].name
         }
     }
 }
