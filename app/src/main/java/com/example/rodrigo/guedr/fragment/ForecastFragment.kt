@@ -1,6 +1,7 @@
 package com.example.rodrigo.guedr.fragment
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Fragment
 import android.content.Intent
 import android.os.AsyncTask
@@ -194,7 +195,22 @@ class ForecastFragment: Fragment() {
                downloadForecast(city)
            }
 
-           forecast = newForecast.await()
+           val downloadedForecast = newForecast.await()
+           if (downloadedForecast != null) {
+               // Todo ha ido bien, se lo asigno al atributo forecast
+               forecast = downloadedForecast
+           }
+           else {
+               // Ha habido algún tipo de error, se lo decimos al usuario con un código
+               AlertDialog.Builder(activity)
+                       .setTitle("Error")
+                       .setMessage("No me pude descargar la información del tiempo")
+                       .setPositiveButton("Reintentar", {dialog, _ ->
+                           dialog.dismiss()
+                           updateForecast() })
+                       .setNegativeButton("Salir", { _, _ -> activity.finish() })
+                       .show()
+           }
        }
     }
 
