@@ -65,7 +65,7 @@ class ForecastFragment: Fragment() {
             }
         }
 
-    var forecast: Forecast? = null
+    var forecast: List<Forecast>? = null
         set(value) {
             field = value
             // Accedemos a las vistas de la interfaz
@@ -191,7 +191,7 @@ class ForecastFragment: Fragment() {
     private fun updateForecast() {
         viewSwitcher.displayedChild = VIEW_INDEX.LOADING.index
        async(UI) {
-           val newForecast: Deferred<Forecast?> = bg {
+           val newForecast: Deferred<List<Forecast>?> = bg {
                downloadForecast(city)
            }
 
@@ -214,7 +214,7 @@ class ForecastFragment: Fragment() {
        }
     }
 
-    fun downloadForecast(city: City?): Forecast? {
+    fun downloadForecast(city: City?): List<Forecast>? {
         try {
             // Nos descargamos la información del tiempo a machete
             val url = URL("https://api.openweathermap.org/data/2.5/forecast/daily?q=${city?.name}&lang=sp&units=metric&appid=${CONSTANT_OWM_APIKEY}")
@@ -223,31 +223,38 @@ class ForecastFragment: Fragment() {
             // Analizamos los datos que nos acabamos de descargar
             val jsonRoot = JSONObject(jsonString)
             val list = jsonRoot.getJSONArray("list")
-            val today = list.getJSONObject(0)
-            val max = today.getJSONObject("temp").getDouble("max").toFloat()
-            val min = today.getJSONObject("temp").getDouble("min").toFloat()
-            val humidity = today.getDouble("humidity").toFloat()
-            val description = today.getJSONArray("weather").getJSONObject(0).getString("description")
-            var iconString = today.getJSONArray("weather").getJSONObject(0).getString("icon")
 
-            // Convertimos el texto iconString a un drawable
-            iconString = iconString.substring(0, iconString.length - 1)
-            val iconInt = iconString.toInt()
-            val iconResource = when (iconInt) {
-                2 -> R.drawable.ico_02
-                3 -> R.drawable.ico_03
-                4 -> R.drawable.ico_04
-                9 -> R.drawable.ico_09
-                10 -> R.drawable.ico_10
-                11 -> R.drawable.ico_11
-                13 -> R.drawable.ico_13
-                50 -> R.drawable.ico_50
-                else -> R.drawable.ico_01
+            // Nos creamos la lista que vamos a ir rellenando con las predicciones del JSON
+            var forecasts = mutableListOf<Forecast>()
+
+            // Recorremos la lista del objeto JSON
+            for (dayIndex in 0..list.length() -1) {
+                val today = list.getJSONObject(dayIndex)
+                val max = today.getJSONObject("temp").getDouble("max").toFloat()
+                val min = today.getJSONObject("temp").getDouble("min").toFloat()
+                val humidity = today.getDouble("humidity").toFloat()
+                val description = today.getJSONArray("weather").getJSONObject(0).getString("description")
+                var iconString = today.getJSONArray("weather").getJSONObject(0).getString("icon")
+
+                // Convertimos el texto iconString a un drawable
+                iconString = iconString.substring(0, iconString.length - 1)
+                val iconInt = iconString.toInt()
+                val iconResource = when (iconInt) {
+                    2 -> R.drawable.ico_02
+                    3 -> R.drawable.ico_03
+                    4 -> R.drawable.ico_04
+                    9 -> R.drawable.ico_09
+                    10 -> R.drawable.ico_10
+                    11 -> R.drawable.ico_11
+                    13 -> R.drawable.ico_13
+                    50 -> R.drawable.ico_50
+                    else -> R.drawable.ico_01
+                }
+
+                forecasts.add(Forecast(max, min, humidity, description, iconResource))
             }
 
-            // Thread.sleep(5000)
-
-            return Forecast(max, min, humidity, description, iconResource)
+            return forecasts
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
