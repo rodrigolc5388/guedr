@@ -17,10 +17,7 @@ import com.example.rodrigo.guedr.model.City
 class CityListFragment : Fragment() {
     companion object {
 
-        fun newInstance(): CityListFragment {
-            val fragment = CityListFragment()
-            return fragment
-        }
+        fun newInstance() = CityListFragment()
     }
 
     lateinit var root: View
