@@ -197,7 +197,7 @@ class ForecastFragment: Fragment() {
 
            val downloadedForecast = newForecast.await()
            if (downloadedForecast != null) {
-               // Todo ha ido bien, se lo asigno al atributo forecast
+               // Tóo ha ido bien, se lo asigno al atributo forecast
                forecast = downloadedForecast
            }
            else {
