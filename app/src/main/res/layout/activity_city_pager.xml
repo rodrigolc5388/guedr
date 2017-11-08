@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.keepcoding.guedr.activity.CityPagerActivity">
+        tools:context="com.example.rodrigo.guedr.activity.CityPagerActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -22,29 +22,9 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
+            android:id="@+id/fragment_city_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!--android.support.v4.view.PagerTabStrip
-+                android:layout_width="match_parent"
-+                android:layout_height="wrap_content">
-+
-+            </android.support.v4.view.PagerTabStrip-->
-
-                <!--android.support.v4.view.PagerTitleStrip
-+                android:layout_width="match_parent"
-+                android:layout_height="wrap_content">
-+
-+            </android.support.v4.view.PagerTitleStrip-->
-
-            </android.support.v4.view.ViewPager>
-
-        </FrameLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </android.support.design.widget.CoordinatorLayout>
