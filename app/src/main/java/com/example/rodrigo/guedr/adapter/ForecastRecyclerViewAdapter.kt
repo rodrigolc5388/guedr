@@ -20,7 +20,7 @@ class ForecastRecyclerViewAdapter(val forecast: List<Forecast>, val tempUnit: Fo
     }
 
     override fun onBindViewHolder(holder: ForecastViewHolder?, position: Int) {
-        holder?.bindForecast(forecast[position], tempUnit)
+        holder?.bindForecast(forecast[position], tempUnit, position)
     }
 
     override fun getItemCount() = forecast.size
