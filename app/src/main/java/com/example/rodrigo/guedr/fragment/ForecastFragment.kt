@@ -269,7 +269,7 @@ class ForecastFragment: Fragment() {
     }
 
     private fun updateTemperature() {
-        forecastList.adapter.notifyDataSetChanged()
+        forecastList.adapter = ForecastRecyclerViewAdapter(forecast, temperatureUnits())
     }
 
     private fun temperatureUnitsString(units: Forecast.TempUnit) = when (units) {
