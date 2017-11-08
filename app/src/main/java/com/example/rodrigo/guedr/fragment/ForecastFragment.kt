@@ -17,9 +17,14 @@ import com.example.rodrigo.guedr.R
 import com.example.rodrigo.guedr.activity.SettingsActivity
 import com.example.rodrigo.guedr.model.City
 import com.example.rodrigo.guedr.model.Forecast
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.*
 
 
 class ForecastFragment: Fragment() {
@@ -169,48 +174,23 @@ class ForecastFragment: Fragment() {
     }
 
     private fun updateForecast() {
-        val weatherDownloader = object : AsyncTask<City, Int, Forecast?>() {
+       async(UI) {
+           val newForecast: Deferred<Forecast?> = bg {
+               downloadForecast(city)
+           }
 
-            override fun onPreExecute() {
-                super.onPreExecute()
-            }
-
-            override fun doInBackground(vararg params: City): Forecast? {
-                return downloadForecast(params[0])
-            }
-
-            override fun onPostExecute(result: Forecast?) {
-                super.onPostExecute(result)
-                if (result != null) {
-                    // No ha habido errores, puedo actualizar la interfaz
-                    city?.forecast = result
-                    forecast = result // Aquí actualiza la interfaz
-                }
-            }
-
-        }
-
-        weatherDownloader.execute(city)
+           forecast = newForecast.await()
+       }
     }
 
-    fun downloadForecast(city: City): Forecast? {
+    fun downloadForecast(city: City?): Forecast? {
         try {
             // Nos descargamos la información del tiempo a machete
             val url = URL("https://api.openweathermap.org/data/2.5/forecast/daily?q=${city?.name}&lang=sp&units=metric&appid=${CONSTANT_OWM_APIKEY}")
-            val con = url.openConnection() as HttpURLConnection
-            con.connect()
-            val data = ByteArray(1024)
-            var downloadedBytes: Int
-            val input = con.inputStream
-            val sb = StringBuilder()
-            downloadedBytes = input.read(data)
-            while (downloadedBytes != -1) {
-                sb.append(String(data, 0, downloadedBytes))
-                downloadedBytes = input.read(data)
-            }
+            val jsonString = Scanner(url.openStream(), "UTF-8").useDelimiter("\\A").next()
 
             // Analizamos los datos que nos acabamos de descargar
-            val jsonRoot = JSONObject(sb.toString())
+            val jsonRoot = JSONObject(jsonString)
             val list = jsonRoot.getJSONArray("list")
             val today = list.getJSONObject(0)
             val max = today.getJSONObject("temp").getDouble("max").toFloat()
@@ -233,6 +213,8 @@ class ForecastFragment: Fragment() {
                 50 -> R.drawable.ico_50
                 else -> R.drawable.ico_01
             }
+
+            // Thread.sleep(5000)
 
             return Forecast(max, min, humidity, description, iconResource)
         } catch (ex: Exception) {
