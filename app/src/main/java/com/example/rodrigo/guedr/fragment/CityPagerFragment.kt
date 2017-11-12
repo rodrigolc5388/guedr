@@ -105,4 +105,8 @@ class CityPagerFragment : Fragment() {
             supportActionBar?.title = Cities[position].name
         }
     }
+
+    fun moveToCity(position: Int) {
+        pager.currentItem = position
+    }
 }
