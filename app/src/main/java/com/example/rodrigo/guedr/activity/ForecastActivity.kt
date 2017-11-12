@@ -2,6 +2,8 @@ package com.example.rodrigo.guedr.activity
 
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.rodrigo.guedr.BuildConfig
@@ -47,6 +49,14 @@ class ForecastActivity : AppCompatActivity(), CityListFragment.OnCitySelectedLis
                         .add(R.id.fragment_city_pager, fragment)
                         .commit()
             }
+        }
+
+        findViewById<FloatingActionButton>(R.id.add_city_button)?.setOnClickListener { v: View ->
+            Snackbar.make(
+                    v,
+                    "Aquí haríamos cosas interesantes",
+                    Snackbar.LENGTH_LONG)
+                    .show()
         }
     }
 
