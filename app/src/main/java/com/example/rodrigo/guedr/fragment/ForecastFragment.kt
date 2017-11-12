@@ -20,6 +20,7 @@ import android.widget.ViewSwitcher
 import com.example.rodrigo.guedr.CONSTANT_OWM_APIKEY
 import com.example.rodrigo.guedr.PREFERENCE_SHOW_CELSIUS
 import com.example.rodrigo.guedr.R
+import com.example.rodrigo.guedr.activity.DetailActivity
 import com.example.rodrigo.guedr.activity.SettingsActivity
 import com.example.rodrigo.guedr.adapter.ForecastRecyclerViewAdapter
 import com.example.rodrigo.guedr.model.City
@@ -74,7 +75,18 @@ class ForecastFragment: Fragment() {
             // Actualizamos la vista con el modelo
             if (value != null) {
                 // Asignamos el adapter al RecyclerView ahora que tenemos datos
-                forecastList.adapter = ForecastRecyclerViewAdapter(value, temperatureUnits())
+                val adapter = ForecastRecyclerViewAdapter(value, temperatureUnits())
+                forecastList. adapter = adapter
+
+                // Le digo al RecyclerViewAdapter que informe cuando pulsen una de sus vistas
+                adapter.onClickListener = View.OnClickListener { v: View? ->
+                    // Aquí me entero que se ha pulsado una de las vistas
+                    val position = forecastList.getChildAdapterPosition(v)
+                    val forecasToShow = value[position]
+                    val day = v?.findViewById<TextView>(R.id.day)?.text.toString()
+
+                    startActivity(DetailActivity.intent(activity, city?.name, day, forecasToShow))
+                }
 
                 viewSwitcher.displayedChild = VIEW_INDEX.FORECAST.index
                 city?.forecast = value // Supercaché de la "muerte"
