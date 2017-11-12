@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.rodrigo.guedr.PREFERENCE_SHOW_CELSIUS
@@ -32,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         supportActionBar?.title = intent.getStringExtra(EXTRA_CITY)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val forecast = intent.getSerializableExtra(EXTRA_FORECAST) as? Forecast
 
@@ -50,6 +52,15 @@ class DetailActivity : AppCompatActivity() {
             humidity.text = humidityString
             day.text = intent.getStringExtra(EXTRA_DAY)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home){
+            // Sabemos que se ha pulsado la flecha de 'back'
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun updateTemperature(forecast: Forecast, units: Forecast.TempUnit) {
